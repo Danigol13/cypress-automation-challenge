@@ -36,6 +36,16 @@ class LoginPage {
   assertLoginError() {
     this.elements.errorMessage().should('be.visible');
   }
+
+  assertEmailRequired() {
+    cy.url().should('include', '/login');
+    this.elements.emailInput().should('have.attr', 'required');
+  }
+
+  assertPasswordRequired() {
+    cy.url().should('include', '/login');
+    this.elements.passwordInput().should('have.attr', 'required');
+  }
 }
 
 export default new LoginPage();

@@ -24,10 +24,12 @@ Then('o produto deve estar presente no carrinho', () => {
   cy.visit('/view_cart');
   cartPage.assertCartHasItems();
   cartPage.assertProductInCart();
+  cy.screenshot('CT05-produto-adicionado-ao-carrinho');
 });
 
 Then('o carrinho deve estar vazio', () => {
   cartPage.assertCartIsEmpty();
+  cy.screenshot('CT06-carrinho-vazio');
 });
 
 // ─── Checkout ─────────────────────────────────────────────────────────────────
@@ -48,8 +50,24 @@ When('acesso o carrinho e prossigo para o checkout', () => {
 
 Then('os produtos devem aparecer na tela de finalização de compra', () => {
   cartPage.assertCheckoutHasProducts();
+  cy.screenshot('CT07-checkout-com-produtos');
 });
 
 Then('devo ser solicitado a fazer login ou cadastro', () => {
   cartPage.assertLoginModalVisible();
+  cy.screenshot('CT08-checkout-modal-login');
+});
+
+When('removo o produto do carrinho', () => {
+  cartPage.removeFirstProduct();
+});
+
+Then('o carrinho deve estar vazio após a remoção', () => {
+  cartPage.assertCartEmptyAfterRemoval();
+  cy.screenshot('CT13-produto-removido-do-carrinho');
+});
+
+Then('a quantidade do produto no carrinho deve ser {int}', (qty) => {
+  cartPage.assertProductQuantity(qty);
+  cy.screenshot('CT14-quantidade-produto-no-carrinho');
 });

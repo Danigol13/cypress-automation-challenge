@@ -11,8 +11,10 @@ When('realizo uma busca pelo termo {string}', (term) => {
 
 Then('devo ver resultados de produtos na listagem', () => {
   productsPage.assertResultsVisible();
+  cy.screenshot('CT03-busca-termo-valido');
 });
 
 Then('não devo ver produtos na listagem de resultados', () => {
   productsPage.assertNoResults();
+  cy.screenshot('CT04-busca-sem-resultados');
 });

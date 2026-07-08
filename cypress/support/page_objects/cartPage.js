@@ -51,6 +51,18 @@ class CartPage {
   assertLoginModalVisible() {
     this.elements.loginToCheckoutModal().should('contain', 'Register / Login');
   }
+
+  removeFirstProduct() {
+    cy.get('.cart_quantity_delete').first().click();
+  }
+
+  assertCartEmptyAfterRemoval() {
+    cy.get('#empty_cart', { timeout: 10000 }).should('be.visible');
+  }
+
+  assertProductQuantity(qty) {
+    cy.get('.cart_quantity button').first().should('have.text', String(qty));
+  }
 }
 
 export default new CartPage();

@@ -13,3 +13,14 @@ Feature: Adicionar produto ao carrinho
   Scenario: CT06 - Acessar carrinho vazio sem adicionar produtos
     Given que acesso o carrinho sem adicionar produtos
     Then o carrinho deve estar vazio
+
+  Scenario: CT13 - Remover produto do carrinho deve esvaziá-lo
+    Given que estou logado com email "teste2021@teste.com.br" e senha "teste"
+    And que adiciono um produto ao carrinho
+    When removo o produto do carrinho
+    Then o carrinho deve estar vazio após a remoção
+
+  Scenario: CT14 - Quantidade do produto adicionado ao carrinho deve ser 1
+    Given que estou logado com email "teste2021@teste.com.br" e senha "teste"
+    And que adiciono um produto ao carrinho
+    Then a quantidade do produto no carrinho deve ser 1
