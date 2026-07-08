@@ -1,0 +1,32 @@
+{
+  "name": "cypress-automation-challenge",
+  "version": "1.0.0",
+  "description": "Framework de automação de testes com Cypress + Cucumber (BDD) em JavaScript",
+  "scripts": {
+    "test": "cypress run",
+    "test:open": "cypress open",
+    "test:headed": "cypress run --headed --no-exit",
+    "test:login": "cypress run --spec cypress/e2e/features/login.feature",
+    "test:search": "cypress run --spec cypress/e2e/features/search.feature",
+    "test:cart": "cypress run --spec cypress/e2e/features/add_to_cart.feature",
+    "test:checkout": "cypress run --spec cypress/e2e/features/checkout.feature",
+    "test:api": "cypress run --spec cypress/e2e/features/api_trello.feature",
+    "report": "node scripts/generate-report.mjs"
+  },
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^20.1.2",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.5",
+    "cypress": "^13.17.0",
+    "dotenv": "^16.4.5",
+    "esbuild": "^0.25.0",
+    "multiple-cucumber-html-reporter": "^3.8.0"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": false,
+    "stepDefinitions": "cypress/e2e/step_definitions/**/*.js",
+    "json": {
+      "enabled": true,
+      "output": "cypress/results/cucumber-report.json"
+    }
+  }
+}

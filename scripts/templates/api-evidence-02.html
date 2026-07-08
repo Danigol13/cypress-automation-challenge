@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Evidência API (Negativo) - {{SCENARIO}}</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f6fa; color: #333; padding: 24px; }
+    h1 { color: #c0392b; font-size: 22px; border-bottom: 3px solid #e74c3c; padding-bottom: 10px; margin-bottom: 20px; }
+    h2 { color: #2c3e50; font-size: 16px; margin: 20px 0 10px; }
+    .card { background: #fff; border-radius: 8px; padding: 16px 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-bottom: 16px; border-left: 4px solid #e74c3c; }
+    .row { display: flex; gap: 8px; margin-bottom: 8px; align-items: baseline; }
+    .label { font-weight: 600; color: #c0392b; min-width: 130px; font-size: 13px; }
+    .value { font-size: 13px; word-break: break-all; }
+    .status-err { color: #e74c3c; font-weight: 700; font-size: 15px; }
+    pre {
+      background: #1e272e;
+      color: #dfe6e9;
+      padding: 16px;
+      border-radius: 6px;
+      overflow: auto;
+      font-size: 12px;
+      line-height: 1.6;
+      max-height: 400px;
+    }
+    .tag-negativo { background: #e74c3c; color: #fff; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>Evidência de Teste — API Trello <span class="tag-negativo">NEGATIVO</span></h1>
+
+  <div class="card">
+    <div class="row"><span class="label">Cenário:</span>       <span class="value">{{SCENARIO}}</span></div>
+    <div class="row"><span class="label">Data / Hora:</span>   <span class="value">{{TIMESTAMP}}</span></div>
+    <div class="row"><span class="label">Método:</span>        <span class="value">{{REQUEST_METHOD}}</span></div>
+    <div class="row"><span class="label">URL:</span>           <span class="value">{{REQUEST_URL}}</span></div>
+    <div class="row"><span class="label">Status Code:</span>   <span class="value status-err">{{STATUS_CODE}}</span></div>
+    <div class="row"><span class="label">Resultado:</span>     <span class="value">Requisição sem autenticação — comportamento esperado</span></div>
+  </div>
+
+  <h2>Corpo da Resposta</h2>
+  <pre>{{RESPONSE_BODY}}</pre>
+</body>
+</html>

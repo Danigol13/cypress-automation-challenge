@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evidência API - {{SCENARIO}}</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f6fa; color: #333; padding: 24px; }
+    h1 { color: #2c3e50; font-size: 22px; border-bottom: 3px solid #3498db; padding-bottom: 10px; margin-bottom: 20px; }
+    h2 { color: #2c3e50; font-size: 16px; margin: 20px 0 10px; }
+    .card { background: #fff; border-radius: 8px; padding: 16px 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-bottom: 16px; }
+    .row { display: flex; gap: 8px; margin-bottom: 8px; align-items: baseline; }
+    .label { font-weight: 600; color: #2980b9; min-width: 130px; font-size: 13px; }
+    .value { font-size: 13px; word-break: break-all; }
+    .status-ok  { color: #27ae60; font-weight: 700; font-size: 15px; }
+    .status-err { color: #e74c3c; font-weight: 700; font-size: 15px; }
+    pre {
+      background: #1e272e;
+      color: #dfe6e9;
+      padding: 16px;
+      border-radius: 6px;
+      overflow: auto;
+      font-size: 12px;
+      line-height: 1.6;
+      max-height: 500px;
+    }
+    .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+    .badge-get  { background: #3498db; color: #fff; }
+    .badge-post { background: #2ecc71; color: #fff; }
+  </style>
+</head>
+<body>
+  <h1>Evidência de Teste — API Trello</h1>
+
+  <div class="card">
+    <div class="row"><span class="label">Cenário:</span>     <span class="value">{{SCENARIO}}</span></div>
+    <div class="row"><span class="label">Data / Hora:</span> <span class="value">{{TIMESTAMP}}</span></div>
+    <div class="row"><span class="label">Método:</span>      <span class="value"><span class="badge badge-{{REQUEST_METHOD_LOWER}}">{{REQUEST_METHOD}}</span></span></div>
+    <div class="row"><span class="label">URL:</span>         <span class="value">{{REQUEST_URL}}</span></div>
+    <div class="row"><span class="label">Status Code:</span> <span class="value {{STATUS_CLASS}}">{{STATUS_CODE}}</span></div>
+  </div>
+
+  <h2>Corpo da Resposta</h2>
+  <pre>{{RESPONSE_BODY}}</pre>
+</body>
+</html>

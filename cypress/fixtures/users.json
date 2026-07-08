@@ -1,0 +1,15 @@
+{
+  "validUser": {
+    "email": "teste2021@teste.com.br",
+    "password": "teste",
+    "name": "Teste"
+  },
+  "invalidUser": {
+    "email": "invalido@example.com",
+    "password": "senhaerrada123"
+  },
+  "searchTerms": {
+    "valid": "Dress",
+    "invalid": "xyzabc999notexist"
+  }
+}
