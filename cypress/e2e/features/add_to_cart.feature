@@ -24,3 +24,13 @@ Feature: Adicionar produto ao carrinho
     Given que estou logado com email "teste2021@teste.com.br" e senha "teste"
     And que adiciono um produto ao carrinho
     Then a quantidade do produto no carrinho deve ser 1
+
+  Scenario: CT26 - Total do produto no carrinho deve corresponder ao preço unitário
+    Given que estou logado com email "teste2021@teste.com.br" e senha "teste"
+    And que adiciono um produto ao carrinho
+    Then o total do produto deve corresponder ao preço unitário
+
+  Scenario: CT28 - Alterar quantidade para 2 antes de adicionar deve refletir no carrinho
+    Given que estou logado com email "teste2021@teste.com.br" e senha "teste"
+    When altero a quantidade do produto para 2 e adiciono ao carrinho
+    Then o produto deve estar no carrinho com quantidade 2

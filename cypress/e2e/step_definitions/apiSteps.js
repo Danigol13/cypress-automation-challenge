@@ -153,3 +153,66 @@ When('realizo um GET para o board sem autenticação', () => {
 Then('tiro evidência do board sem autenticação', () => {
   cy.screenshot('CT23-api-trello-board-credenciais-invalidas');
 });
+
+// ─── CT29–CT33 ────────────────────────────────────────────────────────────────
+
+When('realizo um GET para um card com ID inexistente', () => {
+  const key = Cypress.env('TRELLO_KEY');
+  const token = Cypress.env('TRELLO_TOKEN');
+  cy.request({
+    method: 'GET',
+    url: `${TRELLO_BASE_URL}/cards/000000000000000000000001`,
+    qs: { key, token },
+    failOnStatusCode: false,
+  }).then((res) => { apiResponse = res; });
+});
+
+When('realizo um GET para a action com filtro de campos {string}', (fields) => {
+  const key = Cypress.env('TRELLO_KEY');
+  const token = Cypress.env('TRELLO_TOKEN');
+  cy.request({
+    method: 'GET',
+    url: `${TRELLO_BASE_URL}/actions/592f11060f95a3d3d46a987a`,
+    qs: { key, token, fields },
+    failOnStatusCode: false,
+  }).then((res) => { apiResponse = res; });
+});
+
+Then('os campos filtrados type e date devem estar presentes na resposta', () => {
+  expect(apiResponse.body).to.have.property('type');
+  expect(apiResponse.body).to.have.property('date');
+  cy.log(`[Filtered] type="${apiResponse.body.type}", date="${apiResponse.body.date}"`);
+  cy.screenshot('CT31-api-trello-fields-filter');
+});
+
+Then('a estrutura data.board deve conter id e name', () => {
+  const board = apiResponse.body?.data?.board;
+  expect(board, 'data.board deve existir').to.exist;
+  expect(board).to.have.property('id').that.is.not.undefined;
+  expect(board).to.have.property('name').that.is.not.undefined;
+  cy.log(`[Board] id="${board.id}", name="${board.name}"`);
+  cy.screenshot('CT32-api-trello-data-board-estrutura');
+});
+
+When('busco o card da action e verifico o board', () => {
+  const key = Cypress.env('TRELLO_KEY');
+  const token = Cypress.env('TRELLO_TOKEN');
+  const boardId = apiResponse.body?.data?.board?.id;
+  const cardId = apiResponse.body?.data?.card?.id;
+  cy.wrap(boardId).as('actionBoardId');
+  cy.request({
+    method: 'GET',
+    url: `${TRELLO_BASE_URL}/cards/${cardId}`,
+    qs: { key, token },
+    failOnStatusCode: false,
+  }).then((res) => { apiResponse = res; });
+});
+
+Then('o idBoard do card deve corresponder ao board da action', () => {
+  cy.get('@actionBoardId').then((expectedBoardId) => {
+    const cardBoardId = apiResponse.body?.idBoard;
+    cy.log(`[Verify] Card idBoard="${cardBoardId}" === Board id="${expectedBoardId}"`);
+    expect(cardBoardId).to.equal(expectedBoardId);
+    cy.screenshot('CT33-api-trello-card-board-correspondencia');
+  });
+});

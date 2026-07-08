@@ -69,5 +69,31 @@ Then('o carrinho deve estar vazio após a remoção', () => {
 
 Then('a quantidade do produto no carrinho deve ser {int}', (qty) => {
   cartPage.assertProductQuantity(qty);
-  cy.screenshot('CT14-quantidade-produto-no-carrinho');
+  cy.screenshot(`CT14-quantidade-${qty}-produto-no-carrinho`);
+});
+
+Then('o total do produto deve corresponder ao preço unitário', () => {
+  cartPage.assertTotalMatchesUnitPrice();
+  cy.screenshot('CT26-total-carrinho-preco-unitario');
+});
+
+When('altero a quantidade do produto para {int} e adiciono ao carrinho', (qty) => {
+  // Limpa o carrinho antes para garantir quantidade exata
+  cy.visit('/view_cart');
+  cy.get('body').then(($body) => {
+    if ($body.find('.cart_quantity_delete').length > 0) {
+      cy.get('.cart_quantity_delete').each(($btn) => cy.wrap($btn).click());
+      cy.get('#empty_cart', { timeout: 10000 }).should('be.visible');
+    }
+  });
+  cy.visit('/product_details/1');
+  productsPage.setQuantity(qty);
+  productsPage.addToCartFromDetail();
+  productsPage.continueShopping();
+  cy.visit('/view_cart');
+});
+
+Then('o produto deve estar no carrinho com quantidade {int}', (qty) => {
+  cartPage.assertProductQuantity(qty);
+  cy.screenshot(`CT28-produto-quantidade-${qty}-no-carrinho`);
 });

@@ -40,6 +40,14 @@ class ProductsPage {
   continueShopping() {
     this.elements.continueShoppingButton().should('be.visible').click();
   }
+
+  setQuantity(qty) {
+    cy.get('#quantity').clear().type(String(qty));
+  }
+
+  addToCartFromDetail() {
+    cy.get('#add-to-cart-button, button.cart').first().click();
+  }
 }
 
 export default new ProductsPage();

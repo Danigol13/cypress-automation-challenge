@@ -63,6 +63,19 @@ class CartPage {
   assertProductQuantity(qty) {
     cy.get('.cart_quantity button').first().should('have.text', String(qty));
   }
+
+  assertTotalMatchesUnitPrice() {
+    cy.get('.cart_price p').first().invoke('text').then((priceText) => {
+      cy.get('.cart_quantity button').first().invoke('text').then((qtyText) => {
+        const price = parseInt(priceText.replace(/\D/g, ''), 10);
+        const qty = parseInt(qtyText.trim(), 10);
+        cy.get('.cart_total_price').first().invoke('text').then((totalText) => {
+          const total = parseInt(totalText.replace(/\D/g, ''), 10);
+          expect(total).to.equal(price * qty);
+        });
+      });
+    });
+  }
 }
 
 export default new CartPage();
