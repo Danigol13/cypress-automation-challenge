@@ -1,6 +1,6 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
-import productsPage from '../../support/page_objects/productsPage';
-import cartPage from '../../support/page_objects/cartPage';
+import productsPage from '../../../support/page_objects/productsPage';
+import cartPage from '../../../support/page_objects/cartPage';
 
 // ─── Carrinho ────────────────────────────────────────────────────────────────
 

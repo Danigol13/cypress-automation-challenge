@@ -1,5 +1,5 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
-import registerPage from '../../support/page_objects/registerPage';
+import registerPage from '../../../support/page_objects/registerPage';
 
 Given('que acesso a página de cadastro', () => {
   registerPage.visit();

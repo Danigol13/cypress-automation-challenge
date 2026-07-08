@@ -1,5 +1,5 @@
 import { When, Then } from '@badeball/cypress-cucumber-preprocessor';
-import categoryPage from '../../support/page_objects/categoryPage';
+import categoryPage from '../../../support/page_objects/categoryPage';
 
 When('acesso a categoria Women Dress', () => {
   categoryPage.selectWomenDress();

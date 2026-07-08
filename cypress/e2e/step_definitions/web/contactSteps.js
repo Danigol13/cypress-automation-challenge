@@ -1,5 +1,5 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
-import contactPage from '../../support/page_objects/contactPage';
+import contactPage from '../../../support/page_objects/contactPage';
 
 Given('que acesso a página de contato', () => {
   contactPage.visit();
