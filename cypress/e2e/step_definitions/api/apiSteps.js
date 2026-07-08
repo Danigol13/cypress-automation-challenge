@@ -38,7 +38,6 @@ Then('o campo {string} da estrutura {string} deve ser exibido no log', (field, s
   const value = apiResponse.body?.data?.[structure]?.[field];
   cy.log(`[Trello Response] data.${structure}.${field} = "${value}"`);
   expect(value, `Campo data.${structure}.${field} deve existir na resposta`).to.not.be.undefined;
-  cy.screenshot('CT09-api-trello-credenciais-validas');
 });
 
 // ─── CT10 ─────────────────────────────────────────────────────────────────────
@@ -60,17 +59,12 @@ When('realizo um GET para o endpoint da action {string} sem autenticação', (ac
   });
 });
 
-Then('tiro evidência da resposta 401 da action', () => {
-  cy.screenshot('CT10-api-trello-credenciais-invalidas');
-});
-
 // ─── CT18–CT23 ────────────────────────────────────────────────────────────────
 
 Then('o campo {string} da resposta raiz deve ser {string}', (field, expectedValue) => {
   const value = apiResponse.body?.[field];
   cy.log(`[Trello Response] ${field} = "${value}"`);
   expect(value).to.equal(expectedValue);
-  cy.screenshot(`CT18-api-trello-campo-${field}`);
 });
 
 Then('o campo {string} da resposta raiz deve estar preenchido', (field) => {
@@ -78,7 +72,6 @@ Then('o campo {string} da resposta raiz deve estar preenchido', (field) => {
   cy.log(`[Trello Response] ${field} = "${value}"`);
   expect(value).to.not.be.undefined;
   expect(value).to.not.be.null;
-  cy.screenshot(`CT19-api-trello-campo-${field}-preenchido`);
 });
 
 When('busco os detalhes do board associado à action', () => {
@@ -124,21 +117,18 @@ Then('o campo {string} do board deve ser exibido no log', (field) => {
   const value = apiResponse.body?.[field];
   cy.log(`[Board] ${field} = "${value}"`);
   expect(value, `Campo ${field} do board deve existir`).to.not.be.undefined;
-  cy.screenshot('CT20-api-trello-get-board');
 });
 
 Then('o campo {string} da lista deve ser exibido no log', (field) => {
   const value = apiResponse.body?.[field];
   cy.log(`[List] ${field} = "${value}"`);
   expect(value, `Campo ${field} da lista deve existir`).to.not.be.undefined;
-  cy.screenshot('CT21-api-trello-get-lista');
 });
 
 Then('o campo {string} do card deve ser exibido no log', (field) => {
   const value = apiResponse.body?.[field];
   cy.log(`[Card] ${field} = "${value}"`);
   expect(value, `Campo ${field} do card deve existir`).to.not.be.undefined;
-  cy.screenshot('CT22-api-trello-get-card');
 });
 
 When('realizo um GET para o board sem autenticação', () => {
@@ -148,10 +138,6 @@ When('realizo um GET para o board sem autenticação', () => {
     qs: { key: 'invalid_key_000', token: 'invalid_token_000' },
     failOnStatusCode: false,
   }).then((res) => { apiResponse = res; });
-});
-
-Then('tiro evidência do board sem autenticação', () => {
-  cy.screenshot('CT23-api-trello-board-credenciais-invalidas');
 });
 
 // ─── CT29–CT33 ────────────────────────────────────────────────────────────────
@@ -182,7 +168,6 @@ Then('os campos filtrados type e date devem estar presentes na resposta', () => 
   expect(apiResponse.body).to.have.property('type');
   expect(apiResponse.body).to.have.property('date');
   cy.log(`[Filtered] type="${apiResponse.body.type}", date="${apiResponse.body.date}"`);
-  cy.screenshot('CT31-api-trello-fields-filter');
 });
 
 Then('a estrutura data.board deve conter id e name', () => {
@@ -191,7 +176,6 @@ Then('a estrutura data.board deve conter id e name', () => {
   expect(board).to.have.property('id').that.is.not.undefined;
   expect(board).to.have.property('name').that.is.not.undefined;
   cy.log(`[Board] id="${board.id}", name="${board.name}"`);
-  cy.screenshot('CT32-api-trello-data-board-estrutura');
 });
 
 When('busco o card da action e verifico o board', () => {
@@ -213,7 +197,6 @@ Then('o idBoard do card deve corresponder ao board da action', () => {
     const cardBoardId = apiResponse.body?.idBoard;
     cy.log(`[Verify] Card idBoard="${cardBoardId}" === Board id="${expectedBoardId}"`);
     expect(cardBoardId).to.equal(expectedBoardId);
-    cy.screenshot('CT33-api-trello-card-board-correspondencia');
   });
 });
 
@@ -236,7 +219,6 @@ Then('o campo {string} do member deve ser exibido no log', (field) => {
   const value = apiResponse.body?.[field];
   cy.log(`[Member] ${field} = "${value}"`);
   expect(value, `Campo ${field} do member deve existir`).to.not.be.undefined;
-  cy.screenshot('CT34-api-trello-get-member');
 });
 
 When('busco as listas do board da action', () => {
@@ -255,7 +237,6 @@ When('busco as listas do board da action', () => {
 Then('as listas do board devem ser um array não vazio', () => {
   expect(apiResponse.body).to.be.an('array').that.is.not.empty;
   cy.log(`[Trello] Listas encontradas: ${apiResponse.body.length}`);
-  cy.screenshot('CT35-api-trello-board-lists');
 });
 
 When('busco os cards do board da action', () => {
@@ -274,7 +255,6 @@ When('busco os cards do board da action', () => {
 Then('os cards do board devem ser um array não vazio', () => {
   expect(apiResponse.body).to.be.an('array').that.is.not.empty;
   cy.log(`[Trello] Cards encontrados: ${apiResponse.body.length}`);
-  cy.screenshot('CT36-api-trello-board-cards');
 });
 
 When('busco os membros do board da action', () => {
@@ -293,7 +273,6 @@ When('busco os membros do board da action', () => {
 Then('os membros do board devem ser um array não vazio', () => {
   expect(apiResponse.body).to.be.an('array').that.is.not.empty;
   cy.log(`[Trello] Membros encontrados: ${apiResponse.body.length}`);
-  cy.screenshot('CT37-api-trello-board-members');
 });
 
 Then('o campo {string} de data.card deve estar preenchido', (field) => {
@@ -301,21 +280,18 @@ Then('o campo {string} de data.card deve estar preenchido', (field) => {
   cy.log(`[Trello] data.card.${field} = "${value}"`);
   expect(value, `Campo data.card.${field} deve estar preenchido`).to.not.be.undefined;
   expect(value).to.not.be.null;
-  cy.screenshot(`CT38-api-trello-data-card-${field}`);
 });
 
 Then('a estrutura data.old deve existir na resposta', () => {
   const old = apiResponse.body?.data?.old;
   cy.log(`[Trello] data.old = ${JSON.stringify(old)}`);
   expect(old, 'data.old deve existir na resposta').to.exist;
-  cy.screenshot('CT39-api-trello-data-old-existe');
 });
 
 Then('o id da resposta deve ser {string}', (expectedId) => {
   const id = apiResponse.body?.id;
   cy.log(`[Trello] response.id = "${id}", esperado = "${expectedId}"`);
   expect(id).to.equal(expectedId);
-  cy.screenshot('CT40-api-trello-id-correspondencia');
 });
 
 When('realizo um GET para a action com token inválido', () => {
@@ -325,10 +301,7 @@ When('realizo um GET para a action com token inválido', () => {
     url: `${TRELLO_BASE_URL}/actions/592f11060f95a3d3d46a987a`,
     qs: { key, token: 'token_invalido_000' },
     failOnStatusCode: false,
-  }).then((res) => {
-    apiResponse = res;
-    cy.screenshot('CT41-api-trello-token-invalido');
-  });
+  }).then((res) => { apiResponse = res; });
 });
 
 When('realizo um GET para a action com ID inválido {string}', (invalidId) => {
@@ -339,10 +312,7 @@ When('realizo um GET para a action com ID inválido {string}', (invalidId) => {
     url: `${TRELLO_BASE_URL}/actions/${invalidId}`,
     qs: { key, token },
     failOnStatusCode: false,
-  }).then((res) => {
-    apiResponse = res;
-    cy.screenshot('CT42-api-trello-id-invalido');
-  });
+  }).then((res) => { apiResponse = res; });
 });
 
 When('realizo um GET para um endpoint inexistente da API Trello', () => {
@@ -353,10 +323,7 @@ When('realizo um GET para um endpoint inexistente da API Trello', () => {
     url: `${TRELLO_BASE_URL}/recurso_inexistente/000000000000`,
     qs: { key, token },
     failOnStatusCode: false,
-  }).then((res) => {
-    apiResponse = res;
-    cy.screenshot('CT43-api-trello-endpoint-inexistente');
-  });
+  }).then((res) => { apiResponse = res; });
 });
 
 When('busco os cards do board da action com limite 1', () => {
@@ -375,7 +342,6 @@ When('busco os cards do board da action com limite 1', () => {
 Then('a resposta deve conter exatamente 1 item', () => {
   expect(apiResponse.body).to.be.an('array').with.length(1);
   cy.log(`[Trello] Itens retornados: ${apiResponse.body.length}`);
-  cy.screenshot('CT44-api-trello-cards-limit-1');
 });
 
 When('realizo um GET para a action com parâmetro display true', () => {
@@ -407,7 +373,6 @@ Then('a resposta do board deve conter os campos name e closed', () => {
   expect(body).to.have.property('name');
   expect(body).to.have.property('closed');
   cy.log(`[Board] name="${body.name}", closed="${body.closed}"`);
-  cy.screenshot('CT46-api-trello-board-campos-filtrados');
 });
 
 When('busco as listas abertas do board da action', () => {
@@ -429,5 +394,4 @@ Then('todas as listas da resposta devem estar abertas', () => {
     cy.log(`[List] name="${list.name}", closed=${list.closed}`);
     expect(list.closed, `Lista "${list.name}" deve estar aberta`).to.equal(false);
   });
-  cy.screenshot('CT47-api-trello-listas-abertas');
 });

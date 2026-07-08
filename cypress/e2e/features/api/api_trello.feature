@@ -13,7 +13,6 @@ Feature: API Trello - Consulta de action
     Given que não possuo credenciais da API Trello
     When realizo um GET para o endpoint da action "592f11060f95a3d3d46a987a" sem autenticação
     Then o status code da resposta deve ser 401
-    And tiro evidência da resposta 401 da action
 
   Scenario: CT18 - Validar campo "type" da action deve ser "updateCard"
     Given que possuo credenciais válidas da API Trello
@@ -50,7 +49,6 @@ Feature: API Trello - Consulta de action
     Given que não possuo credenciais da API Trello
     When realizo um GET para o board sem autenticação
     Then o status code da resposta deve ser 401
-    And tiro evidência do board sem autenticação
 
   Scenario: CT29 - GET card com ID inexistente retorna 404
     Given que possuo credenciais válidas da API Trello
