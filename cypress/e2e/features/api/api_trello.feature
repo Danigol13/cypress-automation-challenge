@@ -161,3 +161,32 @@ Feature: API Trello - Consulta de action
     And busco as listas abertas do board da action
     Then o status code da resposta deve ser 200
     And todas as listas da resposta devem estar abertas
+
+  Scenario: CT48 - POST /cards cria card no Trello com sucesso e retorna nome correto
+    Given que possuo credenciais válidas da API Trello
+    When busco a lista da action para usar como destino do card
+    And crio um card com nome "Card Desafio QA" na lista obtida
+    Then o status code da resposta deve ser 200
+    And o nome do card criado deve ser "Card Desafio QA"
+    And removo o card criado para limpeza
+
+  Scenario: CT49 - Card criado via POST deve ser confirmado via GET
+    Given que possuo credenciais válidas da API Trello
+    When busco a lista da action para usar como destino do card
+    And crio um card com nome "Card Verificacao GET" na lista obtida
+    And consulto o card criado via GET
+    Then o status code da resposta deve ser 200
+    And o nome do card consultado deve ser "Card Verificacao GET"
+    And removo o card criado para limpeza
+
+  Scenario: CT50 - DELETE no card criado deve retornar 200
+    Given que possuo credenciais válidas da API Trello
+    When busco a lista da action para usar como destino do card
+    And crio um card temporário na lista obtida
+    And removo o card via DELETE
+    Then o status code da resposta deve ser 200
+
+  Scenario: CT51 - POST criar card sem autenticação retorna 401
+    Given que não possuo credenciais da API Trello
+    When tento criar um card sem autenticação
+    Then o status code da resposta deve ser 401

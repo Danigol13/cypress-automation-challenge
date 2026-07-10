@@ -3,6 +3,8 @@ import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 const TRELLO_BASE_URL = 'https://api.trello.com/1';
 
 let apiResponse;
+let createdCardId;
+let listIdForCard;
 
 // ─── CT09 ─────────────────────────────────────────────────────────────────────
 
@@ -394,4 +396,117 @@ Then('todas as listas da resposta devem estar abertas', () => {
     cy.log(`[List] name="${list.name}", closed=${list.closed}`);
     expect(list.closed, `Lista "${list.name}" deve estar aberta`).to.equal(false);
   });
+});
+
+// ─── CT48–CT51 (POST / DELETE) ────────────────────────────────────────────────
+
+When('busco a lista da action para usar como destino do card', () => {
+  const key = Cypress.env('TRELLO_KEY');
+  const token = Cypress.env('TRELLO_TOKEN');
+  // Busca boards do próprio usuário para garantir permissão de escrita
+  cy.request({
+    method: 'GET',
+    url: `${TRELLO_BASE_URL}/members/me/boards`,
+    qs: { key, token },
+    failOnStatusCode: false,
+  }).then((boardsRes) => {
+    const boardId = boardsRes.body[0]?.id;
+    cy.log(`[Trello] Board do usuário: ${boardId}`);
+    cy.request({
+      method: 'GET',
+      url: `${TRELLO_BASE_URL}/boards/${boardId}/lists`,
+      qs: { key, token },
+      failOnStatusCode: false,
+    }).then((listsRes) => {
+      listIdForCard = listsRes.body[0]?.id;
+      cy.log(`[Trello] idList para criação de card: ${listIdForCard}`);
+    });
+  });
+});
+
+When('crio um card com nome {string} na lista obtida', (cardName) => {
+  const key = Cypress.env('TRELLO_KEY');
+  const token = Cypress.env('TRELLO_TOKEN');
+  cy.request({
+    method: 'POST',
+    url: `${TRELLO_BASE_URL}/cards`,
+    qs: { key, token },
+    body: { idList: listIdForCard, name: cardName },
+    failOnStatusCode: false,
+  }).then((res) => {
+    apiResponse = res;
+    createdCardId = res.body?.id;
+    cy.log(`[Trello] Card criado — id: ${createdCardId}, name: "${res.body?.name}"`);
+  });
+});
+
+Then('o nome do card criado deve ser {string}', (expectedName) => {
+  expect(apiResponse.body?.name).to.equal(expectedName);
+  cy.log(`[Trello] name = "${apiResponse.body?.name}"`);
+});
+
+Then('removo o card criado para limpeza', () => {
+  const key = Cypress.env('TRELLO_KEY');
+  const token = Cypress.env('TRELLO_TOKEN');
+  cy.request({
+    method: 'DELETE',
+    url: `${TRELLO_BASE_URL}/cards/${createdCardId}`,
+    qs: { key, token },
+    failOnStatusCode: false,
+  }).then((res) => {
+    cy.log(`[Trello] Limpeza — DELETE card status: ${res.status}`);
+  });
+});
+
+When('consulto o card criado via GET', () => {
+  const key = Cypress.env('TRELLO_KEY');
+  const token = Cypress.env('TRELLO_TOKEN');
+  cy.request({
+    method: 'GET',
+    url: `${TRELLO_BASE_URL}/cards/${createdCardId}`,
+    qs: { key, token },
+    failOnStatusCode: false,
+  }).then((res) => { apiResponse = res; });
+});
+
+Then('o nome do card consultado deve ser {string}', (expectedName) => {
+  expect(apiResponse.body?.name).to.equal(expectedName);
+  cy.log(`[Trello] Card consultado name = "${apiResponse.body?.name}"`);
+});
+
+When('crio um card temporário na lista obtida', () => {
+  const key = Cypress.env('TRELLO_KEY');
+  const token = Cypress.env('TRELLO_TOKEN');
+  cy.request({
+    method: 'POST',
+    url: `${TRELLO_BASE_URL}/cards`,
+    qs: { key, token },
+    body: { idList: listIdForCard, name: 'Card Temporario DELETE' },
+    failOnStatusCode: false,
+  }).then((res) => {
+    apiResponse = res;
+    createdCardId = res.body?.id;
+    cy.log(`[Trello] Card temporário criado — id: ${createdCardId}`);
+  });
+});
+
+When('removo o card via DELETE', () => {
+  const key = Cypress.env('TRELLO_KEY');
+  const token = Cypress.env('TRELLO_TOKEN');
+  cy.request({
+    method: 'DELETE',
+    url: `${TRELLO_BASE_URL}/cards/${createdCardId}`,
+    qs: { key, token },
+    failOnStatusCode: false,
+  }).then((res) => { apiResponse = res; });
+});
+
+When('tento criar um card sem autenticação', () => {
+  cy.request({
+    method: 'POST',
+    url: `${TRELLO_BASE_URL}/cards`,
+    qs: { key: 'invalid_key_000', token: 'invalid_token_000' },
+    body: { idList: 'qualquer_lista', name: 'Card Sem Auth' },
+    failOnStatusCode: false,
+  }).then((res) => { apiResponse = res; });
 });
