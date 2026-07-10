@@ -3,4 +3,5 @@ cypress/videos/
 cypress/results/
 cypress/evidencias/**/*.png
 cypress/evidencias/**/*.jpg
+docs/
 .env
