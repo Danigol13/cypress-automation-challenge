@@ -102,19 +102,11 @@ cypress-automation-challenge/
 │   │   │   ├── search.feature
 │   │   │   ├── add_to_cart.feature
 │   │   │   ├── checkout.feature
-│   │   │   ├── category.feature
-│   │   │   ├── contact.feature
-│   │   │   ├── product.feature
-│   │   │   ├── register.feature
 │   │   │   └── api_trello.feature
 │   │   └── step_definitions/       # Step definitions (Cucumber)
 │   │       ├── loginSteps.js
 │   │       ├── searchSteps.js
 │   │       ├── cartSteps.js
-│   │       ├── categorySteps.js
-│   │       ├── contactSteps.js
-│   │       ├── productSteps.js
-│   │       ├── registerSteps.js
 │   │       └── apiSteps.js
 │   ├── evidencias/                 # Screenshots por feature (gerados na execução)
 │   │   ├── login.feature/
@@ -127,13 +119,7 @@ cypress-automation-challenge/
 │   │   │   ├── loginPage.js
 │   │   │   ├── homePage.js
 │   │   │   ├── productsPage.js
-│   │   │   ├── cartPage.js
-│   │   │   ├── checkoutPage.js
-│   │   │   ├── paymentPage.js
-│   │   │   ├── categoryPage.js
-│   │   │   ├── contactPage.js
-│   │   │   └── registerPage.js
-│   │   ├── commands.js
+│   │   │   └── cartPage.js
 │   │   └── e2e.js
 │   └── fixtures/
 │       └── users.json              # Massa de dados
@@ -193,32 +179,6 @@ cypress-automation-challenge/
 | CT52 | Positivo  | Pagamento com dados válidos exibe confirmação do pedido          |
 | CT53 | Negativo  | Campo obrigatório não preenchido impede confirmação (5 exemplos) |
 
-### Categorias (`category.feature`)
-
-| ID   | Tipo      | Descrição                                                        |
-|------|-----------|------------------------------------------------------------------|
-| CT24 | Positivo  | Navegar para categoria Women exibe produtos filtrados            |
-| CT25 | Positivo  | Navegar para categoria Men exibe produtos filtrados              |
-
-### Contato (`contact.feature`)
-
-| ID   | Tipo      | Descrição                                                        |
-|------|-----------|------------------------------------------------------------------|
-| CT27 | Positivo  | Envio de formulário de contato com dados válidos exibe sucesso   |
-
-### Produto (`product.feature`)
-
-| ID   | Tipo      | Descrição                                                        |
-|------|-----------|------------------------------------------------------------------|
-| CT15 | Positivo  | Página de detalhe do produto exibe nome e preço                  |
-
-### Cadastro (`register.feature`)
-
-| ID   | Tipo      | Descrição                                                        |
-|------|-----------|------------------------------------------------------------------|
-| CT16 | Positivo  | Cadastro com dados válidos cria conta com sucesso                |
-| CT17 | Negativo  | Cadastro com email já cadastrado exibe mensagem de erro          |
-
 ### API Trello (`api_trello.feature`)
 
 | ID   | Tipo      | Descrição                                                        |
@@ -255,7 +215,7 @@ cypress-automation-challenge/
 | CT50 | Positivo  | DELETE no card criado retorna 200                                |
 | CT51 | Negativo  | POST criar card sem autenticação retorna 401                     |
 
-**Total: 58 cenários automatizados**
+**Total: 52 cenários automatizados**
 
 ---
 
