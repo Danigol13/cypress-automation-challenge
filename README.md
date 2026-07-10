@@ -119,7 +119,10 @@ cypress-automation-challenge/
 │   │   │   ├── loginPage.js
 │   │   │   ├── homePage.js
 │   │   │   ├── productsPage.js
-│   │   │   └── cartPage.js
+│   │   │   ├── cartPage.js
+│   │   │   ├── checkoutPage.js
+│   │   │   └── paymentPage.js
+│   │   ├── commands.js
 │   │   └── e2e.js
 │   └── fixtures/
 │       └── users.json              # Massa de dados
