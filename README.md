@@ -78,9 +78,9 @@ npm run test:headed
 ```bash
 npm run test:login      # CT01, CT02, CT11, CT12, CT55 — Login e Logout
 npm run test:search     # CT03, CT04 — Busca de produtos
-npm run test:cart       # CT05–CT08, CT13, CT14, CT26, CT28 — Carrinho (visitante e autenticado)
-npm run test:checkout   # CT07, CT52, CT53 — Checkout e Pagamento (usuário logado)
-npm run test:api        # CT09–CT10, CT18–CT51 — API Trello (GET, POST, DELETE)
+npm run test:cart       # CT05, CT06, CT08, CT13, CT14, CT26, CT28 — Carrinho
+npm run test:checkout   # CT07, CT52, CT53 — Checkout e Pagamento
+npm run test:api        # CT09, CT10, CT18–CT51 — API Trello (GET, POST, DELETE)
 ```
 
 ### Gerar relatório HTML
@@ -102,11 +102,19 @@ cypress-automation-challenge/
 │   │   │   ├── search.feature
 │   │   │   ├── add_to_cart.feature
 │   │   │   ├── checkout.feature
+│   │   │   ├── category.feature
+│   │   │   ├── contact.feature
+│   │   │   ├── product.feature
+│   │   │   ├── register.feature
 │   │   │   └── api_trello.feature
 │   │   └── step_definitions/       # Step definitions (Cucumber)
 │   │       ├── loginSteps.js
 │   │       ├── searchSteps.js
 │   │       ├── cartSteps.js
+│   │       ├── categorySteps.js
+│   │       ├── contactSteps.js
+│   │       ├── productSteps.js
+│   │       ├── registerSteps.js
 │   │       └── apiSteps.js
 │   ├── evidencias/                 # Screenshots por feature (gerados na execução)
 │   │   ├── login.feature/
@@ -119,7 +127,13 @@ cypress-automation-challenge/
 │   │   │   ├── loginPage.js
 │   │   │   ├── homePage.js
 │   │   │   ├── productsPage.js
-│   │   │   └── cartPage.js
+│   │   │   ├── cartPage.js
+│   │   │   ├── checkoutPage.js
+│   │   │   ├── paymentPage.js
+│   │   │   ├── categoryPage.js
+│   │   │   ├── contactPage.js
+│   │   │   └── registerPage.js
+│   │   ├── commands.js
 │   │   └── e2e.js
 │   └── fixtures/
 │       └── users.json              # Massa de dados
@@ -178,6 +192,32 @@ cypress-automation-challenge/
 | CT07 | Positivo  | Usuário logado visualiza produtos na tela de finalização         |
 | CT52 | Positivo  | Pagamento com dados válidos exibe confirmação do pedido          |
 | CT53 | Negativo  | Campo obrigatório não preenchido impede confirmação (5 exemplos) |
+
+### Categorias (`category.feature`)
+
+| ID   | Tipo      | Descrição                                                        |
+|------|-----------|------------------------------------------------------------------|
+| CT24 | Positivo  | Navegar para categoria Women exibe produtos filtrados            |
+| CT25 | Positivo  | Navegar para categoria Men exibe produtos filtrados              |
+
+### Contato (`contact.feature`)
+
+| ID   | Tipo      | Descrição                                                        |
+|------|-----------|------------------------------------------------------------------|
+| CT27 | Positivo  | Envio de formulário de contato com dados válidos exibe sucesso   |
+
+### Produto (`product.feature`)
+
+| ID   | Tipo      | Descrição                                                        |
+|------|-----------|------------------------------------------------------------------|
+| CT15 | Positivo  | Página de detalhe do produto exibe nome e preço                  |
+
+### Cadastro (`register.feature`)
+
+| ID   | Tipo      | Descrição                                                        |
+|------|-----------|------------------------------------------------------------------|
+| CT16 | Positivo  | Cadastro com dados válidos cria conta com sucesso                |
+| CT17 | Negativo  | Cadastro com email já cadastrado exibe mensagem de erro          |
 
 ### API Trello (`api_trello.feature`)
 
