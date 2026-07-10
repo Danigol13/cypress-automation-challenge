@@ -1,26 +1,26 @@
 class HomePage {
   elements = {
-    navbar: () => cy.get('#header'),
-    productsLink: () => cy.get('a[href="/products"]'),
-    cartLink: () => cy.get('a[href="/view_cart"]'),
+    logo: () => cy.get('#header .logo'),
+    navbar: () => cy.get('#header .navbar-nav'),
+    signupLoginLink: () => cy.get('a[href="/login"]'),
     logoutLink: () => cy.get('a[href="/logout"]'),
+    cartLink: () => cy.get('a[href="/view_cart"]'),
   };
 
   visit() {
     cy.visit('/');
   }
 
-  goToProducts() {
-    this.elements.productsLink().first().click();
+  assertIsVisible() {
+    this.elements.logo().should('be.visible');
+  }
+
+  assertLoggedIn() {
+    this.elements.logoutLink().should('be.visible');
   }
 
   goToCart() {
-    this.elements.cartLink().first().click();
-  }
-
-  assertIsLoaded() {
-    cy.url().should('include', 'automationexercise.com');
-    this.elements.navbar().should('be.visible');
+    this.elements.cartLink().click();
   }
 }
 

@@ -8,8 +8,39 @@
     "email": "invalido@example.com",
     "password": "senhaerrada123"
   },
+  "existingUser": {
+    "email": "teste2021@teste.com.br",
+    "name": "Existing User"
+  },
   "searchTerms": {
     "valid": "Dress",
     "invalid": "xyzabc999notexist"
+  },
+  "contact": {
+    "name": "Test User",
+    "email": "testcontact@example.com",
+    "subject": "Dúvida sobre produtos",
+    "message": "Gostaria de mais informações sobre os produtos disponíveis na loja."
+  },
+  "payment": {
+    "nameOnCard": "QA Test User",
+    "cardNumber": "4111111111111111",
+    "cvc": "123",
+    "expiryMonth": "12",
+    "expiryYear": "2028"
+  },
+  "register": {
+    "password": "Senha@123",
+    "birthDay": "1",
+    "birthMonth": "1",
+    "birthYear": "2000",
+    "firstName": "Test",
+    "lastName": "User",
+    "address": "123 Test Street",
+    "country": "United States",
+    "state": "California",
+    "city": "Los Angeles",
+    "zipcode": "90001",
+    "mobile": "5555555555"
   }
 }

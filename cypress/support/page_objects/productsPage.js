@@ -48,6 +48,11 @@ class ProductsPage {
   addToCartFromDetail() {
     cy.get('#add-to-cart-button, button.cart').first().click();
   }
+
+  assertProductDetailsVisible() {
+    cy.get('.product-information h2').should('be.visible');
+    cy.get('.product-information').should('contain.text', 'Rs.');
+  }
 }
 
 export default new ProductsPage();

@@ -8,7 +8,7 @@ report.generate({
   jsonDir: join(__dirname, '../cypress/results'),
   reportPath: join(__dirname, '../cypress/results/report'),
   metadata: {
-    browser: { name: 'chrome', version: 'latest' },
+    browser: { name: 'electron', version: '118' },
     device: 'Local',
     platform: { name: 'Windows', version: '11' },
   },
@@ -17,6 +17,7 @@ report.generate({
     data: [
       { label: 'Projeto', value: 'Automation Challenge - Cypress + Cucumber' },
       { label: 'Release', value: '1.0.0' },
+      { label: 'Ambiente', value: process.env.ENVIRONMENT || 'production' },
       { label: 'Executado em', value: new Date().toLocaleString('pt-BR') },
     ],
   },

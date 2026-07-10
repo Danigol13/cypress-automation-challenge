@@ -5,13 +5,20 @@
   "scripts": {
     "test": "cypress run",
     "test:open": "cypress open",
-    "test:headed": "cypress run --headed --no-exit",
+    "test:headed": "cypress run --headed",
+    "test:smoke": "cypress run --env tags=@Smoke",
+    "test:regression": "cypress run --env tags=@Regression",
+    "test:ci": "cypress run --reporter spec",
+    "test:web": "cypress run --env tags=@Web",
+    "test:api": "cypress run --spec cypress/e2e/features/api_trello.feature",
     "test:login": "cypress run --spec cypress/e2e/features/login.feature",
     "test:search": "cypress run --spec cypress/e2e/features/search.feature",
     "test:cart": "cypress run --spec cypress/e2e/features/add_to_cart.feature",
     "test:checkout": "cypress run --spec cypress/e2e/features/checkout.feature",
-    "test:api": "cypress run --spec cypress/e2e/features/api_trello.feature",
     "report": "node scripts/generate-report.mjs"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^20.1.2",
@@ -23,7 +30,9 @@
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": false,
-    "stepDefinitions": "cypress/e2e/step_definitions/**/*.js",
+    "stepDefinitions": "cypress/e2e/step_definitions/*.js",
+    "filterSpecs": true,
+    "omitFiltered": true,
     "json": {
       "enabled": true,
       "output": "cypress/results/cucumber-report.json"

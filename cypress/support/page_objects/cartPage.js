@@ -4,8 +4,6 @@ class CartPage {
     productNamesInCart: () => cy.get('#cart_info_table .cart_description h4 a'),
     emptyCartMessage: () => cy.get('#empty_cart'),
     proceedToCheckoutBtn: () => cy.get('a.check_out'),
-    checkoutProductNames: () => cy.get('#cart_info_table .cart_description h4'),
-    loginToCheckoutModal: () => cy.get('.modal-body'),
   };
 
   visit() {
@@ -28,30 +26,6 @@ class CartPage {
     this.elements.proceedToCheckoutBtn().click();
   }
 
-  assertCheckoutHasProducts() {
-    cy.url().should('include', '/checkout');
-
-    // Loga estrutura real da página para identificar o seletor correto
-    cy.document().then((doc) => {
-      const tables = Array.from(doc.querySelectorAll('table'));
-      tables.forEach((t, i) =>
-        cy.log(`[DOM] table[${i}]: id="${t.id}" class="${t.className}" rows=${t.rows.length}`)
-      );
-      const cartInfo = doc.querySelector('#cart_info');
-      cy.log(`[DOM] #cart_info: ${cartInfo ? `found, children=${cartInfo.children.length}` : 'NOT FOUND'}`);
-      const products = doc.querySelectorAll('[id^="product-"]');
-      cy.log(`[DOM] [id^="product-"]: ${products.length} elements`);
-    });
-
-    cy.contains('Review Your Order', { timeout: 15000 }).should('be.visible');
-    // Funciona tanto para <tr id="product-1"> (tabela) quanto <li id="product-1"> (lista)
-    cy.get('[id^="product-"]', { timeout: 15000 }).should('have.length.greaterThan', 0);
-  }
-
-  assertLoginModalVisible() {
-    this.elements.loginToCheckoutModal().should('contain', 'Register / Login');
-  }
-
   removeFirstProduct() {
     cy.get('.cart_quantity_delete').first().click();
   }
@@ -65,15 +39,15 @@ class CartPage {
   }
 
   assertTotalMatchesUnitPrice() {
-    cy.get('.cart_price p').first().invoke('text').then((priceText) => {
-      cy.get('.cart_quantity button').first().invoke('text').then((qtyText) => {
-        const price = parseInt(priceText.replace(/\D/g, ''), 10);
-        const qty = parseInt(qtyText.trim(), 10);
-        cy.get('.cart_total_price').first().invoke('text').then((totalText) => {
-          const total = parseInt(totalText.replace(/\D/g, ''), 10);
-          expect(total).to.equal(price * qty);
-        });
-      });
+    cy.get('.cart_price p').first().invoke('text').as('priceText');
+    cy.get('.cart_quantity button').first().invoke('text').as('qtyText');
+    cy.get('.cart_total_price').first().invoke('text').as('totalText');
+
+    cy.then(function () {
+      const price = parseInt(this.priceText.replace(/\D/g, ''), 10);
+      const qty = parseInt(this.qtyText.trim(), 10);
+      const total = parseInt(this.totalText.replace(/\D/g, ''), 10);
+      expect(total).to.equal(price * qty);
     });
   }
 }

@@ -15,6 +15,9 @@ class RegisterPage {
     createAccountButton: () => cy.get('button[data-qa="create-account"]'),
     accountCreatedTitle: () => cy.get('h2[data-qa="account-created"]'),
     emailExistsError: () => cy.get('p.text-danger'),
+    birthDaySelect: () => cy.get('select[data-qa="days"]'),
+    birthMonthSelect: () => cy.get('select[data-qa="months"]'),
+    birthYearSelect: () => cy.get('select[data-qa="years"]'),
   };
 
   visit() {
@@ -27,19 +30,19 @@ class RegisterPage {
     this.elements.signupButton().click();
   }
 
-  fillRegistrationForm() {
-    this.elements.passwordInput().type('Senha@123');
-    cy.get('select[data-qa="days"]').select('1');
-    cy.get('select[data-qa="months"]').select('1');
-    cy.get('select[data-qa="years"]').select('2000');
-    this.elements.firstNameInput().type('Test');
-    this.elements.lastNameInput().type('User');
-    this.elements.addressInput().type('123 Test Street');
-    this.elements.countrySelect().select('United States');
-    this.elements.stateInput().type('California');
-    this.elements.cityInput().type('Los Angeles');
-    this.elements.zipcodeInput().type('90001');
-    this.elements.mobileInput().type('5555555555');
+  fillRegistrationForm(data) {
+    this.elements.passwordInput().type(data.password);
+    this.elements.birthDaySelect().select(data.birthDay);
+    this.elements.birthMonthSelect().select(data.birthMonth);
+    this.elements.birthYearSelect().select(data.birthYear);
+    this.elements.firstNameInput().type(data.firstName);
+    this.elements.lastNameInput().type(data.lastName);
+    this.elements.addressInput().type(data.address);
+    this.elements.countrySelect().select(data.country);
+    this.elements.stateInput().type(data.state);
+    this.elements.cityInput().type(data.city);
+    this.elements.zipcodeInput().type(data.zipcode);
+    this.elements.mobileInput().type(data.mobile);
     this.elements.createAccountButton().click();
   }
 
