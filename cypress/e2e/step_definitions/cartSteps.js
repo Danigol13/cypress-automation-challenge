@@ -28,12 +28,12 @@ When('opto por continuar comprando', () => {
 
 Then('o produto deve estar presente no carrinho', () => {
   cy.visit('/view_cart');
-  cartPage.assertCartHasItems();
-  cartPage.assertProductInCart();
+  cartPage.elements.cartRows().should('have.length.greaterThan', 0);
+  cartPage.elements.productNamesInCart().first().should('be.visible');
 });
 
 Then('o carrinho deve estar vazio', () => {
-  cartPage.assertCartIsEmpty();
+  cartPage.elements.emptyCartMessage().should('be.visible');
 });
 
 When('removo o produto do carrinho', () => {
@@ -41,15 +41,23 @@ When('removo o produto do carrinho', () => {
 });
 
 Then('o carrinho deve estar vazio após a remoção', () => {
-  cartPage.assertCartEmptyAfterRemoval();
+  cartPage.elements.emptyCartMessage().should('be.visible');
 });
 
 Then('a quantidade do produto no carrinho deve ser {int}', (qty) => {
-  cartPage.assertProductQuantity(qty);
+  cartPage.elements.firstRowQty().should('have.text', String(qty));
 });
 
 Then('o total do produto deve corresponder ao preço unitário', () => {
-  cartPage.assertTotalMatchesUnitPrice();
+  cartPage.elements.firstRowPrice().invoke('text').as('priceText');
+  cartPage.elements.firstRowQty().invoke('text').as('qtyText');
+  cartPage.elements.firstRowTotal().invoke('text').as('totalText');
+  cy.then(function () {
+    const price = parseInt(this.priceText.replace(/\D/g, ''), 10);
+    const qty   = parseInt(this.qtyText.trim(), 10);
+    const total = parseInt(this.totalText.replace(/\D/g, ''), 10);
+    expect(total).to.equal(price * qty);
+  });
 });
 
 When('altero a quantidade do produto para {int} e adiciono ao carrinho', (qty) => {
@@ -68,7 +76,7 @@ When('altero a quantidade do produto para {int} e adiciono ao carrinho', (qty) =
 });
 
 Then('o produto deve estar no carrinho com quantidade {int}', (qty) => {
-  cartPage.assertProductQuantity(qty);
+  cartPage.elements.firstRowQty().should('have.text', String(qty));
 });
 
 // ─── Checkout ─────────────────────────────────────────────────────────────────

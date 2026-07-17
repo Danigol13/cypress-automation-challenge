@@ -3,7 +3,7 @@ import loginPage from './page_objects/loginPage';
 Cypress.Commands.add('login', (email, password) => {
   loginPage.visit();
   loginPage.login(email, password);
-  loginPage.assertLoginSuccess();
+  loginPage.elements.logoutLink().should('be.visible');
 });
 
 Cypress.Commands.add('addProductToCart', () => {

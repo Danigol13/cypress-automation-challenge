@@ -25,11 +25,11 @@ When('clico no botão de login', () => {
 
 Then('devo ser redirecionado para a página principal logado com sucesso', () => {
   cy.url().should('not.include', '/login');
-  loginPage.assertLoginSuccess();
+  loginPage.elements.logoutLink().should('be.visible');
 });
 
 Then('devo ver a mensagem de erro de credenciais inválidas', () => {
-  loginPage.assertLoginError();
+  loginPage.elements.errorMessage().should('be.visible');
 });
 
 Given('que estou logado como usuário válido', () => {
@@ -55,11 +55,13 @@ When('preencho apenas o email do usuário válido', () => {
 });
 
 Then('o campo de email deve ser marcado como obrigatório', () => {
-  loginPage.assertEmailRequired();
+  cy.url().should('include', '/login');
+  loginPage.elements.emailInput().should('have.attr', 'required');
 });
 
 Then('o campo de senha deve ser marcado como obrigatório', () => {
-  loginPage.assertPasswordRequired();
+  cy.url().should('include', '/login');
+  loginPage.elements.passwordInput().should('have.attr', 'required');
 });
 
 When('clico no botão de logout', () => {

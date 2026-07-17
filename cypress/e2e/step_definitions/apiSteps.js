@@ -320,3 +320,104 @@ Then('o nome do card consultado deve ser {string}', (expectedName) => {
   expect(apiResponse.body?.name).to.equal(expectedName);
   cy.log(`[Trello] Card consultado name = "${apiResponse.body?.name}"`);
 });
+
+// ─── Automation Exercise API ──────────────────────────────────────────────────
+
+let aeApiResponse;
+let aeApiResponse2;
+
+const AE_BASE_URL = 'https://automationexercise.com/api';
+
+function parseAeBody(body) {
+  return typeof body === 'string' ? JSON.parse(body) : body;
+}
+
+function buildAccountPayload(email) {
+  return {
+    name: 'QA Tester',
+    email,
+    password: 'Test@1234',
+    title: 'Mr',
+    birth_date: '15',
+    birth_month: '6',
+    birth_year: '1990',
+    firstname: 'QA',
+    lastname: 'Tester',
+    company: 'QA Company',
+    address1: '123 Test Street',
+    address2: 'Apt 4',
+    country: 'United States',
+    zipcode: '90001',
+    state: 'California',
+    city: 'Los Angeles',
+    mobile_number: '5551234567',
+  };
+}
+
+Given('que acesso a API do Automation Exercise', () => {
+  cy.log(`Automation Exercise API: ${AE_BASE_URL}`);
+});
+
+When('envio um POST para criar uma conta com dados válidos', () => {
+  const uniqueEmail = `qa_${Date.now()}@test.com`;
+  Cypress.env('aeEmail', uniqueEmail);
+
+  cy.request({
+    method: 'POST',
+    url: `${AE_BASE_URL}/createAccount`,
+    form: true,
+    body: buildAccountPayload(uniqueEmail),
+  }).then((res) => {
+    aeApiResponse = res;
+    cy.log(`[AE] createAccount status=${res.status}, body=${JSON.stringify(res.body)}`);
+  });
+});
+
+When('crio uma conta e tento criar novamente com o mesmo email', () => {
+  const uniqueEmail = `qa_dup_${Date.now()}@test.com`;
+
+  cy.request({
+    method: 'POST',
+    url: `${AE_BASE_URL}/createAccount`,
+    form: true,
+    body: buildAccountPayload(uniqueEmail),
+  }).then((res) => {
+    cy.log(`[AE] Primeira criação responseCode=${parseAeBody(res.body).responseCode}`);
+    Cypress.env('aeEmail', uniqueEmail);
+  });
+
+  cy.request({
+    method: 'POST',
+    url: `${AE_BASE_URL}/createAccount`,
+    form: true,
+    failOnStatusCode: false,
+    body: buildAccountPayload(uniqueEmail),
+  }).then((res) => {
+    aeApiResponse2 = res;
+    cy.log(`[AE] Segunda criação body=${JSON.stringify(res.body)}`);
+  });
+});
+
+Then('o responseCode da resposta de criação deve ser {int}', (expectedCode) => {
+  const body = parseAeBody(aeApiResponse.body);
+  cy.log(`[AE] responseCode = ${body.responseCode}`);
+  expect(body.responseCode).to.equal(expectedCode);
+});
+
+Then('a mensagem da resposta deve ser {string}', (expectedMessage) => {
+  const body = parseAeBody(aeApiResponse.body);
+  cy.log(`[AE] message = "${body.message}"`);
+  expect(body.message).to.equal(expectedMessage);
+});
+
+Then('o responseCode da segunda tentativa deve ser {int}', (expectedCode) => {
+  const body = parseAeBody(aeApiResponse2.body);
+  cy.log(`[AE] responseCode segunda tentativa = ${body.responseCode}`);
+  expect(body.responseCode).to.equal(expectedCode);
+});
+
+Then('a mensagem da segunda tentativa deve ser {string}', (expectedMessage) => {
+  const body = parseAeBody(aeApiResponse2.body);
+  cy.log(`[AE] message segunda tentativa = "${body.message}"`);
+  expect(body.message).to.equal(expectedMessage);
+});

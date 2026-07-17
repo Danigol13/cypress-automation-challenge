@@ -3,7 +3,7 @@ class LoginPage {
     emailInput: () => cy.get('input[data-qa="login-email"]'),
     passwordInput: () => cy.get('input[data-qa="login-password"]'),
     loginButton: () => cy.get('button[data-qa="login-button"]'),
-    errorMessage: () => cy.contains('p', 'Your email or password is incorrect!'),
+    errorMessage: () => cy.get('.login-form').find('p').contains('Your email or password is incorrect!'),
     logoutLink: () => cy.get('a[href="/logout"]'),
   };
 
@@ -27,24 +27,6 @@ class LoginPage {
     this.fillEmail(email);
     this.fillPassword(password);
     this.clickLogin();
-  }
-
-  assertLoginSuccess() {
-    this.elements.logoutLink().should('be.visible');
-  }
-
-  assertLoginError() {
-    this.elements.errorMessage().should('be.visible');
-  }
-
-  assertEmailRequired() {
-    cy.url().should('include', '/login');
-    this.elements.emailInput().should('have.attr', 'required');
-  }
-
-  assertPasswordRequired() {
-    cy.url().should('include', '/login');
-    this.elements.passwordInput().should('have.attr', 'required');
   }
 }
 

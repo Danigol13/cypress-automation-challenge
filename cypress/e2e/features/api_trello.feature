@@ -222,3 +222,19 @@ Feature: API Trello - Consulta de action
     Given que não possuo credenciais da API Trello
     When tento criar um card sem autenticação
     Then o status code da resposta deve ser 401
+
+  # ─── Automation Exercise API ────────────────────────────────────────────────
+
+  @CT52 @Smoke
+  Scenario: POST /api/createAccount cria conta com dados válidos e retorna responseCode 201
+    Given que acesso a API do Automation Exercise
+    When envio um POST para criar uma conta com dados válidos
+    Then o responseCode da resposta de criação deve ser 201
+    And a mensagem da resposta deve ser "User created!"
+
+  @CT53
+  Scenario: POST /api/createAccount com email já existente retorna responseCode 400
+    Given que acesso a API do Automation Exercise
+    When crio uma conta e tento criar novamente com o mesmo email
+    Then o responseCode da segunda tentativa deve ser 400
+    And a mensagem da segunda tentativa deve ser "Email already exists!"
